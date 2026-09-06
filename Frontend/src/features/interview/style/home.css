@@ -1,0 +1,155 @@
+/* home.css */
+
+.home {
+  min-height: 100vh;
+  background-color: #0a0b10;
+  color: #f5f5f7;
+  padding: 40px 24px;
+  font-family: 'Inter', 'Manrope', system-ui, sans-serif;
+}
+
+.interview-input-group {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .interview-input-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Left column (Job Description) --- */
+.left {
+  background: #12141c;
+  border: 1px solid #232635;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.left label {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #f5f5f7;
+}
+
+.left textarea {
+  flex: 1;
+  min-height: 400px;
+}
+
+/* --- Right column --- */
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  background: #12141c;
+  border: 1px solid #232635;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.input-group p,
+.input-group > label {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #f5f5f7;
+}
+
+.input-group .highlight {
+  color: #ec1b5a;
+  font-weight: 400;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+/* --- Textareas (shared) --- */
+textarea {
+  width: 100%;
+  background: #1a1c26;
+  border: 1px solid #2a2d3d;
+  border-radius: 10px;
+  padding: 14px;
+  color: #f5f5f7;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 120px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea::placeholder {
+  color: #9a9ba5;
+}
+
+textarea:focus {
+  border-color: #ec1b5a;
+  box-shadow: 0 0 0 3px rgba(236, 27, 90, 0.15);
+}
+
+/* --- File upload --- */
+.file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 28px 16px;
+  background: #1a1c26;
+  border: 1.5px dashed #2a2d3d;
+  border-radius: 10px;
+  color: #9a9ba5;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.file-label:hover {
+  border-color: #ec1b5a;
+  background: rgba(236, 27, 90, 0.06);
+  color: #f5f5f7;
+}
+
+/* --- Button --- */
+.button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 12px;
+  padding: 16px 24px;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #ec1b5a, #ff4d7d);
+  color: #fff;
+  width: 100%;
+}
+
+.primary-button:hover {
+  background: linear-gradient(135deg, #d4164f, #ff3568);
+}
+
+.primary-button:active {
+  transform: scale(0.98);
+}
+
+.primary-button:disabled {
+  background: #3a3d4a;
+  color: #9a9ba5;
+  cursor: not-allowed;
+}
