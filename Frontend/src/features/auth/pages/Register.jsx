@@ -18,11 +18,11 @@ const Register = () => {
     }
 
     if(loading) {
-        return (<main><h1>Loading.....</h1></main>)
+        return (<main className='loading-screen'><h1>Loading.....</h1></main>)
     }
     
   return (
-    <main>
+    <main className='auth-main'>
         <div className='form-container'>
             <h1>Register</h1>
 

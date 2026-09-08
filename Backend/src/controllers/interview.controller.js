@@ -29,4 +29,31 @@ async function generateInterviewReportController(req,res) {
     })
 }
 
+async function interviewReportbyIdController(req,res) {
+    const {interviewId} = req.params;
+
+    const interviewReport = await InterviewReport.findOne({_id:interviewId, user:req.user.id})
+
+    if(!interviewReport) {
+        return res.status(404).json({
+            message:"Interview Report not found"
+        })
+    }
+
+    res.status(200).json({
+        message: "Interview Report Fetched successfully",
+        interviewReport
+    })
+}
+
+async function getAllinterviewReportsController(req,res){
+    const interviewReports = await InterviewReport.find({user:req.user.id}).sort({createdAt: -1}).select("-resume -selfDescription -jobDescription -__v -technicalQuestions -behaviorQuestions -skillGaps -preparationPlan")
+    res.status(200).json({
+        message:"Interview Reports fetched successfully.",
+        interviewReports
+    })
+}
+
+
 export default generateInterviewReportController;
+export {interviewReportbyIdController, getAllinterviewReportsController}
