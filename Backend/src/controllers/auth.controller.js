@@ -41,7 +41,11 @@ async function registerUserController(req, res) {
         {expiresIn: "1d"}
     )
 
-    res.cookie("token", token)
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    })
 
     res.status(201).json({
         message:"User Registerd Successfully",
@@ -67,7 +71,7 @@ async function loginUserController(req,res) {
         })
     }
 
-    const isPasswordValid = bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if(!isPasswordValid) {
         return res.status(400).json({
@@ -85,7 +89,11 @@ async function loginUserController(req,res) {
         
     )
 
-    res.cookie("token",token);
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    })
     res.status(200).json({
         message:"User Logged in successfully",
         user:{
@@ -103,7 +111,11 @@ async function logoutUserController(req,res) {
         await BlackListToken.create({token})
     }
 
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    });
 
     res.status(200).json({
         message: "User logged out successfully"
