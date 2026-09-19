@@ -1,10 +1,15 @@
 import 'dotenv/config';
 import app from './src/app.js';
 import ConnectDB from './src/config/database.js';
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
 
-console.log("google/genai version:", require('@google/genai/package.json').version);
+import { readFileSync } from 'fs';
+
+try {
+    const genaiPkg = JSON.parse(readFileSync('./node_modules/@google/genai/package.json', 'utf-8'));
+    console.log("google/genai version:", genaiPkg.version);
+} catch (err) {
+    console.log("Could not read genai version:", err.message);
+}
 
 ConnectDB()
 .then(()=> {
