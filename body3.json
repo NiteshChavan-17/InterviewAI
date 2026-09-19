@@ -1,0 +1,13 @@
+﻿{
+  "contents": [{"parts": [{"text": "Generate a test response"}]}],
+  "generationConfig": {
+    "responseMimeType": "application/json",
+    "responseJsonSchema": {
+      "type": "object",
+      "properties": {
+        "message": {"type": "string"}
+      },
+      "required": ["message"]
+    }
+  }
+}

@@ -48,17 +48,34 @@ async function generateInterviewReport({resume, selfDescription, jobDescription}
                     Resume: ${resume}
                     Self Description: ${selfDescription}
                     Job Description: ${jobDescription}`
-    const response = await ai.models.generateContent({
 
-        model: "gemini-3.6-flash",
-        contents: prompt,
-        config: {
-            responseMimeType: "application/json",
-            responseJsonSchema: z.toJSONSchema(interviewReportSchema)
+    const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-goog-api-key": process.env.GOOGLE_GENAI_API_KEY
+            },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseJsonSchema: z.toJSONSchema(interviewReportSchema)
+                }
+            })
         }
-    })
+    )
 
-    return JSON.parse(response.text)
+    if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`Gemini API error (${response.status}): ${errorBody}`);
+    }
+
+    const data = await response.json();
+    const text = data.candidates[0].content.parts[0].text;
+
+    return JSON.parse(text)
 }
 
 

@@ -46,3 +46,23 @@ Soft Skills:
 - Good communication and ability to work in a cross-functional team
 - Strong problem-solving skills and attention to detail
 - Ability to manage time effectively and meet deadlines
+
+
+async function generateInterviewReport({resume, selfDescription, jobDescription}) {
+
+    const prompt = `Generate an interview report for candidate with following details
+                    Resume: ${resume}
+                    Self Description: ${selfDescription}
+                    Job Description: ${jobDescription}`
+    const response = await ai.models.generateContent({
+
+        model: "gemini-3.6-flash",
+        contents: prompt,
+        config: {
+            responseMimeType: "application/json",
+            responseJsonSchema: z.toJSONSchema(interviewReportSchema)
+        }
+    })
+
+    return JSON.parse(response.text)
+}
