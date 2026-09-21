@@ -42,6 +42,26 @@ const interviewReportSchema = z.object({
     title: z.string().describe("The title of the job for which the interview report is generated")
 })
 
+async function fetchWithRetry(url, options, retries = 6, delayMs = 3000) {
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        const response = await fetch(url, options);
+
+        if (response.ok) {
+            return response;
+        }
+
+        const isRetryable = response.status === 503 || response.status === 429;
+
+        if (isRetryable && attempt < retries) {
+            console.log(`Gemini API attempt ${attempt} failed with ${response.status}, retrying in ${delayMs * attempt}ms...`);
+            await new Promise(resolve => setTimeout(resolve, delayMs * attempt));
+            continue;
+        }
+
+        return response;
+    }
+}
+
 async function generateInterviewReport({resume, selfDescription, jobDescription}) {
 
     const prompt = `Generate an interview report for candidate with following details
@@ -49,7 +69,7 @@ async function generateInterviewReport({resume, selfDescription, jobDescription}
                     Self Description: ${selfDescription}
                     Job Description: ${jobDescription}`
 
-    const response = await fetch(
+    const response = await fetchWithRetry(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent`,
         {
             method: "POST",
@@ -77,7 +97,5 @@ async function generateInterviewReport({resume, selfDescription, jobDescription}
 
     return JSON.parse(text)
 }
-
-
 
 export default generateInterviewReport

@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { Code2, MessageCircle, Map, ChevronDown } from 'lucide-react'
 import '../style/interview.css'
 import { useInterview } from '../hooks/useInterview.js'
-import { useNavigate, useParams } from 'react-router'
+import { Navigate, useNavigate, useParams } from 'react-router'
 
 
 
@@ -11,6 +11,8 @@ const NAV_ITEMS = [
   { id: 'behavioral', label: 'Behavioral Questions', icon: MessageCircle },
   { id: 'roadmap', label: 'Road Map', icon: Map }
 ]
+
+
 
 // Circular match score gauge
 const MatchScoreRing = ({ score }) => {
@@ -85,6 +87,7 @@ const Interview = () => {
   const [activeTab, setActiveTab] = useState('technical')
   const {report, getReportbyId} = useInterview();
   const {interviewId} = useParams();
+  const navigate = useNavigate();
 
   useEffect(()=> {
     if(interviewId) {
@@ -178,7 +181,10 @@ const Interview = () => {
               )
             })}
           </nav>
+
+          <button className='button secondary-button' onClick={()=> {navigate('/')}}>Back to Home</button>
         </aside>
+
 
         {/* Center content */}
         <section className="interview-main">

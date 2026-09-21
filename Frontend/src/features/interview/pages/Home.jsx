@@ -24,6 +24,12 @@ const Home = () => {
         navigate(`/interview/${data._id}`);
     }
 
+    async function handlelogout() {
+        setTimeout(()=> {
+            navigate('/login');
+        },3000);
+    }
+
     if(loading) {
         return (
             <main className='loading-screen'>
@@ -34,10 +40,13 @@ const Home = () => {
 
   return (
     <main className='home'>
+        
         <div className="home-header">
+            <button className='button logout-button' onClick={handlelogout}>Logout</button>
             <h1>Create Your Custom <span className='accent-text'>Interview Plan</span></h1>
             <p>Let our AI analyze the job requirements and your unique profile to build a winning strategy.</p>
         </div>
+
 
         <div className="interview-input-group">
             <div className="left">
